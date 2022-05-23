@@ -2,11 +2,11 @@
   "name": "k8s",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "jest --coverage",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "test": "jest",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
