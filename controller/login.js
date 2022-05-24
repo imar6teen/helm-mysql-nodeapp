@@ -39,5 +39,6 @@ module.exports = async (req, res) => {
       .json({ msg: "signed in!" });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };

@@ -6,6 +6,10 @@ const signupController = require("../controller/signup");
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.status(200).json({ msg: "Hello Client" });
+});
+
 router.post("/login", loginController);
 
 router.post("/signup", signupController);
