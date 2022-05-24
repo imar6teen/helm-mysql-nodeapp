@@ -12,8 +12,8 @@ COPY ./package.* ${APP_PATH}
 
 ARG NODE_ENV
 
-RUN if [ NODE_ENV = "production"]; then \
-    npm install --production; \
+RUN if [ NODE_ENV = "production"]; \
+    then npm install --only=production; \
     else \
     npm install; \
     fi
@@ -23,9 +23,7 @@ COPY . ${APP_PATH}
 # stage 2
 FROM node:16-alpine
 
-USER docker
-
-COPY --chown=docker:docker --from=build /app /app
+COPY --chown=node:node --from=build /app /app
 
 ENTRYPOINT [ "npm" ]
 
