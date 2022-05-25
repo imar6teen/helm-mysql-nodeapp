@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon server.js",
+    "dev": "nodemon -L server.js",
     "start": "node server.js"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
     "@types/jest": "^27.5.1",
     "jest": "^28.1.0",
     "nodemon": "^2.0.16",
+    "prisma": "^3.14.0",
     "supertest": "^6.2.3"
   },
   "dependencies": {

@@ -6,7 +6,7 @@ node_modules
 
 .env.*
 
-test/
+test
 
 jest.config.js
 

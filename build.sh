@@ -1,12 +1,9 @@
+#/bin/sh
 
-if ["$1" = ""]; then
-    echo "Please attach a NODE_ENV argument"
-    exit 1
-else
-    echo "Building for $1"
-fi 
+if ["$NODE_ENV" = "development"]; then
+    npx prisma db push;
+    else
+    npx prisma deploy;
+    fi
 
-docker build --no-cache \
-     --build-arg NODE_ENV=$1 \
-     -t k8s-backend:latest \
-     -t k8s-backend:$(git rev-parse --short HEAD) .
+    npm start
