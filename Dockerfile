@@ -12,7 +12,7 @@ ARG NODE_ENV
 
 ARG DATABASE_URL
 
-RUN if ["${NODE_ENV}" == "development"]; \
+RUN if [ "${NODE_ENV}" == "development" ]; \
     then \
     npm install; \
     else \
@@ -30,4 +30,4 @@ COPY --chown=node:node --from=build /app .
 
 RUN npx prisma generate
 
-CMD ["/bin/build.sh"]
+CMD ["./build.sh"]

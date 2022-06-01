@@ -1,9 +1,12 @@
 #/bin/sh
 
-if ["$NODE_ENV" = "development"]; then
+
+if [ "${NODE_ENV}" == "development" ]; then
+    echo "Running development build";
     npx prisma db push;
-    else
-    npx prisma deploy;
-    fi
+else
+    echo "Running production build";
+    npx prisma migrate deploy;
+fi
 
     npm start
