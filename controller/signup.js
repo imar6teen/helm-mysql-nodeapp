@@ -1,5 +1,6 @@
 const prisma = require("../util/prisma");
 const hashPassword = require("../util/hashPassword");
+const errorFactory = require("../error/errorFactory");
 
 /**
  * @param {import("express").Request} req
@@ -10,8 +11,7 @@ module.exports = async (req, res) => {
     // get the body
     const { name, email, password, confirmPassword } = req.body;
     //check if password and condifrmPassword is same
-    if (password !== confirmPassword)
-      return res.status(400).json({ msg: "confirm Password wrong" });
+    if (password !== confirmPassword) throw errorFactory("PASSWORD_NOT_MATCH");
     // check if the user exists in db
     const isUserExist = await prisma.user.findFirst({
       where: {
@@ -19,8 +19,7 @@ module.exports = async (req, res) => {
       },
     });
     // if exists, send the response back with status code 401 and error message
-    if (isUserExist != null)
-      return res.status(401).json({ msg: "email already sign" });
+    if (isUserExist != null) throw errorFactory("EMAIL_ALREADY_EXIST");
     // if not exists, create the user in db
     const hashedPassword = await hashPassword(password);
     await prisma.user.create({
@@ -34,6 +33,6 @@ module.exports = async (req, res) => {
     res.status(200).json({ msg: "user signed in!" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(err.statusCode).json({ msg: err.message });
   }
 };
