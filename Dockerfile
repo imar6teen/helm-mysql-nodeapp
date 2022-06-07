@@ -6,17 +6,15 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 ARG NODE_ENV
-
-ARG DATABASE_URL
 
 RUN if [ "${NODE_ENV}" == "development" ]; \
     then \
     npm install; \
     else \
-    npm install --only=production; \
+    npm install --omit=dev; \
     fi
 
 COPY . .
@@ -26,7 +24,9 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY --chown=node:node --from=build /app .
+# COPY --chown=node:node --from=build /app .
+
+COPY --from=build /app .
 
 RUN npx prisma generate
 

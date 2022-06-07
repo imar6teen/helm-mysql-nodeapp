@@ -4,7 +4,12 @@ const jwt = require("jsonwebtoken");
 //     SECRET_JWT
 // } = require('../config/config')
 
-const { privateKey, algorithm, expiresIn } = require("../config/jwtConfig");
+const {
+  privateKey,
+  algorithm,
+  expiresIn,
+  publicKey,
+} = require("../config/jwtConfig");
 
 class JsonWebToken {
   /**
@@ -32,7 +37,7 @@ class JsonWebToken {
     return new Promise((res, rej) => {
       jwt.verify(
         token,
-        privateKey,
+        publicKey,
         {
           algorithms: [algorithm],
           complete: true,

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+  labels:
+    app: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: imar6teen/k8s-node-app:latest
+          # for local only
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: node-app-volume
+              mountPath: /app/keys
+              readOnly: true
+          env:
+            - name: SALT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: config-node-app
+                  key: SALT_PASSWORD
+            - name: HTTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config-node-app
+                  key: HTTP_PORT
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config-node-app
+                  key: DATABASE_URL
+          imagePullPolicy: Never
+      volumes:
+        - name: node-app-volume
+          secret:
+            secretName: secret-node-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+  labels:
+    app: node-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: node-app
+  ports:
+    - port: 8080
+      targetPort: 80
+      protocol: TCP

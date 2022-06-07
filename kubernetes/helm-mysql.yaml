@@ -1,0 +1,6 @@
+architechture: "standalone"
+auth:
+  rootPassword: "password"
+  database: "k8s_prod"
+secondary:
+  replicaCount: 2
