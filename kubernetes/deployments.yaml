@@ -41,7 +41,6 @@ spec:
                 configMapKeyRef:
                   name: config-node-app
                   key: DATABASE_URL
-          imagePullPolicy: Never
       volumes:
         - name: node-app-volume
           secret:
